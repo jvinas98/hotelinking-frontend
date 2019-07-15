@@ -6,7 +6,8 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
-      'axios'
+      'axios',
+      'vuelidate',
     ],
 
     css: [
@@ -49,7 +50,11 @@ module.exports = function (ctx) {
         'QCardSection',
         'QCardActions',
         'QInput',
-        'QSeparator'
+        'QSeparator',
+        'QTabs',
+        'QTab',
+        'QRouteTab',
+        'QAvatar'
       ],
 
       directives: [
