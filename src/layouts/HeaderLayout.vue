@@ -10,10 +10,10 @@
           rounded
           style="border-radius: 50px;"
           class="justify-between items-center q-pa-xs q-mr-md q-mt-xs"
+          @click="logOut"
         >
-          <q-icon name="account_circle" class="q-mr-md" size="40px" />
-
-          <span class="text-h6 q-mr-xs">Testeo</span>
+          <q-icon name="power_settings_new" class="q-mr-md" size="40px" />
+          <span class="text-h6 q-mr-xs">Log Out</span>
         </q-item>
       </q-toolbar>
 
@@ -33,6 +33,30 @@
 export default {
   data() {
     return {};
+  },
+  methods:{
+    logOut(){
+      this.$axios
+      .get("http://hotelink.test/api/auth/logout" )
+      .then(response => {
+        sessionStorage.clear();
+        this.$router.push("/login");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  },
+  created() {
+    console.log("envio peticion");
+    this.$axios
+      .get("http://hotelink.test/api/auth/user")
+      .then(response => {
+        sessionStorage.setItem('user', JSON.stringify(response.data));
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>

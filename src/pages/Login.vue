@@ -21,10 +21,13 @@
           class="q-mb-lg"
           type="password"
           placeholder="obligatorio"
+          :error="$v.loginPassword.$error"
+          @blur="$v.loginPassword.$touch"
+          error-message="minimo 8 carácteres"
         />
         <q-btn color="primary" class="full-width" label="¡Entra!" no-caps size="lg" @click="login" />
       </q-card-section>
-      <p>Si no tienes cuenta registrate haciendo click en el boton de abajo</p>
+      <p class="q-mx-xl text-center">Si no tienes cuenta registrate haciendo click en el boton de abajo</p>
       <q-btn
         id="change-view-button"
         class="full-width"
@@ -83,7 +86,7 @@
         />
         <q-btn color="primary" class="full-width" label="¡Entra!" no-caps @click="register" />
       </q-card-section>
-      <p>Si no tienes cuenta registrate pinchando en registrarse</p>
+      <p class="q-mx-xl text-center" >Si ya tienes cuenta entra haciendo click en el boton de abajo</p>
       <q-btn
         id="change-view-button"
         class="full-width"
@@ -96,12 +99,7 @@
 </template>
 
 <script>
-import {
-  required,
-  minLength,
-  sameAs,
-  email
-} from "vuelidate/lib/validators";
+import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 
 export default {
   name: "Login",
@@ -118,67 +116,86 @@ export default {
   },
   methods: {
     register: function() {
+      this.$v.$touch();
+      if (this.$v.$error) return;
       this.$axios
-        .post("http://hotelink.test/api/auth/signup", {
+        .post(this.$constants.API_DOMAIN + "auth/signup", {
           name: this.name,
           email: this.email,
           password: this.password,
-          password_confirmation: this.repeatPassword
+          password_confirmation: this.repeatPassword +"patito"
         })
-        .then(function(response) {
-          console.log(response);
+        .then(response =>  {
+          this.loginPassword = this.password;
+          this.loginEmail = this.email;
+          this.login();
         })
-        .catch(function(error) {
+        .catch(error => {
           console.log(error);
+          this.$q.notify({
+            message: "Ha ocurrido un error, revise los datos e intentelo de nuevo",
+            color: "red-10",
+            icon: "error",
+            timeout: 3500
+          });
         });
     },
     login: function() {
+      this.$v.$touch();
+      if (this.$v.$error) return;
       this.$axios
-        .post("http://hotelink.test/api/auth/login", {
+        .post(this.$constants.API_DOMAIN + "auth/login", {
           email: this.loginEmail,
           password: this.loginPassword
         })
         .then(response => {
-          console.log(response);
-          localStorage.setItem("token", response.data.access_token);
+          sessionStorage.setItem("token", response.data.access_token);
           this.$router.push("/offers");
         })
         .catch(error => {
-          console.log(error);
+           this.$q.notify({
+            message: "Ha ocurrido un error, revise la contraseña y el email y vuelva a intentarlo",
+            color: "red-10",
+            icon: "error",
+            timeout: 3500
+          });
         });
     },
     changueView() {
       this.isLoginView = !this.isLoginView;
     }
   },
-  validations: {
-    email: {
-      required,
-      email
-    },
-    name: {
-      required
-    },
-    email: {
-      required,
-      email
-    },
-    password: {
-      required,
-      minLength: minLength(8)
-    },
-    repeatPassword: {
-      required,
-      sameAs: sameAs(function() {
-        return this.password;
-      })
-    },
-    loginEmail: {
-      required,
-      email
-    },
-    loginPassword: {
-      required
+  validations() {
+    if (!this.isLoginView) {
+      return {
+        name: {
+          required
+        },
+        email: {
+          required,
+          email
+        },
+        password: {
+          required,
+          minLength: minLength(8)
+        },
+        repeatPassword: {
+          required,
+          sameAs: sameAs(function() {
+            return this.password;
+          })
+        }
+      };
+    } else {
+      return {
+        loginEmail: {
+          required,
+          email
+        },
+        loginPassword: {
+          required
+        }
+      };
     }
   }
 };

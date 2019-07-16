@@ -19,10 +19,10 @@ export default {
   created() {
     console.log("envio peticion");
     this.$axios
-      .get("http://hotelink.test/api/auth/offers")
+      .get( this.$constants.API_DOMAIN + "offers")
       .then(response => {
         console.log(response);
-        this.offers = JSON.parse(response.data);
+        this.offers = response.data;
       })
       .catch(error => {
         console.log(error);

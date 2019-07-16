@@ -1,22 +1,69 @@
 <template>
-  <q-item clickable id="offer-card" class="flex row no-wrap">
-    <div id="price-content" class="text-white col-3 flex items-center justify-center">
-      <span v-if="offer.price != 0.00">{{offer.price}}€</span>
-      <span v-else>GRATIS</span>
-    </div>
+  <div>
+    <q-item clickable id="offer-card" class="card-offer flex row no-wrap" @click="getOffer">
+      <div id="price-content" class="text-white col-3 flex items-center justify-center">
+        <span v-if="offer.price != 0.00">{{offer.price}}€</span>
+        <span v-else>GRATIS</span>
+      </div>
 
-    <div id="offer-content" class="col-9">
-      <p>{{offer.title}}</p>
-      <p>{{offer.description}}</p>
-    </div>
-  </q-item>
+      <div id="offer-content" class="col-9">
+        <p class="text-h5">{{offer.title}}</p>
+        <p>{{offer.description}}</p>
+      </div>
+      <q-tooltip
+        anchor="center left"
+        self="center middle"
+        transition-show="flip-right"
+        transition-hide="flip-left"
+      >Obtener oferta</q-tooltip>
+    </q-item>
+    <q-dialog v-model="infoCodeDialog">
+      <q-card id="dialog-style" class="bg-primary text-white">
+        <q-card-section class="text-h3 text-center">
+          <p>Código del cupón</p>
+          <p id="code-style">{{this.code}}</p>
+          <p class="text-body1">
+            Puedes cangearlo entrando en
+            <span class="text-weight-bolder">MIS OFERTAS</span>
+          </p>
+          <q-btn
+            class="full-width"
+            label="¡Vale!"
+            color="white"
+            text-color="primary"
+            v-close-popup
+          />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+  </div>
 </template>
 
 <script>
 export default {
   name: "OfferCard",
   data() {
-    return {};
+    return {
+      code: "",
+      infoCodeDialog: false
+    };
+  },
+  methods: {
+    getOffer() {
+      let user = JSON.parse(sessionStorage.getItem("user"));
+      this.$axios
+        .post("http://hotelink.test/api/offer", {
+          idUser: user.id,
+          idOffer: this.offer.id
+        })
+        .then(response => {
+          this.code = response.data;
+          this.infoCodeDialog = true;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   },
   props: ["offer"]
 };
@@ -24,12 +71,8 @@ export default {
 
 <style>
 #offer-card {
-  height: 20vh;
-  border-radius: 4px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.12);
   padding: 0;
-  overflow: hidden;
+  height: 20vh;
 }
 
 #price-content {
@@ -44,5 +87,15 @@ export default {
   word-wrap: break-word;
   padding: 20px;
   background-color: #ffe082;
+}
+
+#dialog-style {
+  width: 60vh;
+}
+
+#code-style {
+  background-color: white;
+  color: black;
+  border-radius: 5px;
 }
 </style>

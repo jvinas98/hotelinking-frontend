@@ -8,6 +8,7 @@ module.exports = function (ctx) {
     boot: [
       'axios',
       'vuelidate',
+      'constants'
     ],
 
     css: [
@@ -54,11 +55,16 @@ module.exports = function (ctx) {
         'QTabs',
         'QTab',
         'QRouteTab',
-        'QAvatar'
+        'QAvatar',
+        'QDialog',
+        'QTabPanels',
+        'QTabPanel',
+        'QTooltip'
       ],
 
       directives: [
-        'Ripple'
+        'Ripple',
+        'ClosePopup'
       ],
 
       // Quasar plugins

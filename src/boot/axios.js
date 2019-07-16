@@ -3,7 +3,7 @@ import axios from 'axios'
 export default async ({ Vue, router }) => {
 
   axios.interceptors.request.use(function (configuration) {
-    let token = localStorage.getItem('token');
+    let token = sessionStorage.getItem('token');
 
     if (token) {
       configuration.headers.Authorization = `Bearer ${token}`;
