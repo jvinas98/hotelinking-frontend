@@ -32,6 +32,6 @@ quasar dev
 Cuando hayan cargado todos los modulos se abrira en el navegador en ``localhost:8080``
 
 # A tener en cuenta
- El proyecto hace peticiones a la api con la url ``'http://hotelinking.test/api/' ``
+ El proyecto hace peticiones a la api con la url ``'http://hotelinking.test/api/' ``.
  Para que funcione correctamente se debe añadir el dominio al archivo hosts que se explica en 
  [tech-test-hotelinking-sever](https://github.com/jvinas98/tech-test-hotelinking-sever)
