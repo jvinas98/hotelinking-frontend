@@ -17,11 +17,9 @@ export default {
     };
   },
   created() {
-    console.log("envio peticion");
     this.$axios
-      .get( this.$constants.API_DOMAIN + "offers")
+      .get(this.$constants.API_DOMAIN + "offers")
       .then(response => {
-        console.log(response);
         this.offers = response.data;
       })
       .catch(error => {

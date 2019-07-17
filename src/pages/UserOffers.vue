@@ -88,7 +88,6 @@ export default {
     this.$axios
       .get(this.$constants.API_DOMAIN + "user/" + user.id + "/offers")
       .then(response => {
-        console.log(response);
         this.offersOfUserNotActivate = response.data.filter(
           offer => offer.activate == 0
         );
@@ -129,7 +128,7 @@ export default {
           });
         });
     }
-  },
+  }
 };
 </script>
 

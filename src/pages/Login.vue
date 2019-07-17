@@ -27,7 +27,9 @@
         />
         <q-btn color="primary" class="full-width" label="¡Entra!" no-caps size="lg" @click="login" />
       </q-card-section>
-      <p class="q-mx-xl text-center">Si no tienes cuenta registrate haciendo click en el boton de abajo</p>
+      <p
+        class="q-mx-xl text-center"
+      >Si no tienes cuenta registrate haciendo click en el boton de abajo</p>
       <q-btn
         id="change-view-button"
         class="full-width"
@@ -86,7 +88,7 @@
         />
         <q-btn color="primary" class="full-width" label="¡Entra!" no-caps @click="register" />
       </q-card-section>
-      <p class="q-mx-xl text-center" >Si ya tienes cuenta entra haciendo click en el boton de abajo</p>
+      <p class="q-mx-xl text-center">Si ya tienes cuenta entra haciendo click en el boton de abajo</p>
       <q-btn
         id="change-view-button"
         class="full-width"
@@ -123,17 +125,17 @@ export default {
           name: this.name,
           email: this.email,
           password: this.password,
-          password_confirmation: this.repeatPassword +"patito"
+          password_confirmation: this.repeatPassword
         })
-        .then(response =>  {
+        .then(response => {
           this.loginPassword = this.password;
           this.loginEmail = this.email;
           this.login();
         })
         .catch(error => {
-          console.log(error);
           this.$q.notify({
-            message: "Ha ocurrido un error, revise los datos e intentelo de nuevo",
+            message:
+              "Ha ocurrido un error, revise los datos e intentelo de nuevo",
             color: "red-10",
             icon: "error",
             timeout: 3500
@@ -153,8 +155,9 @@ export default {
           this.$router.push("/offers");
         })
         .catch(error => {
-           this.$q.notify({
-            message: "Ha ocurrido un error, revise la contraseña y el email y vuelva a intentarlo",
+          this.$q.notify({
+            message:
+              "Ha ocurrido un error, revise la contraseña y el email y vuelva a intentarlo",
             color: "red-10",
             icon: "error",
             timeout: 3500

@@ -15,7 +15,9 @@
         self="center middle"
         transition-show="flip-right"
         transition-hide="flip-left"
-      >Obtener oferta</q-tooltip>
+      >
+        Obtener oferta
+      </q-tooltip>
     </q-item>
     <q-dialog v-model="infoCodeDialog">
       <q-card id="dialog-style" class="bg-primary text-white">
@@ -52,7 +54,7 @@ export default {
     getOffer() {
       let user = JSON.parse(sessionStorage.getItem("user"));
       this.$axios
-        .post("http://hotelink.test/api/offer", {
+        .post(this.$constants.API_DOMAIN + "user/offer", {
           idUser: user.id,
           idOffer: this.offer.id
         })

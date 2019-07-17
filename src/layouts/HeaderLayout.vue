@@ -34,25 +34,24 @@ export default {
   data() {
     return {};
   },
-  methods:{
-    logOut(){
+  methods: {
+    logOut() {
       this.$axios
-      .get("http://hotelink.test/api/auth/logout" )
-      .then(response => {
-        sessionStorage.clear();
-        this.$router.push("/login");
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        .get("http://hotelink.test/api/auth/logout")
+        .then(response => {
+          sessionStorage.clear();
+          this.$router.push("/login");
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   created() {
-    console.log("envio peticion");
     this.$axios
       .get("http://hotelink.test/api/auth/user")
       .then(response => {
-        sessionStorage.setItem('user', JSON.stringify(response.data));
+        sessionStorage.setItem("user", JSON.stringify(response.data));
       })
       .catch(error => {
         console.log(error);
