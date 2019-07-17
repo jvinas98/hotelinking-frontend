@@ -37,7 +37,7 @@ export default {
   methods: {
     logOut() {
       this.$axios
-        .get("http://hotelink.test/api/auth/logout")
+        .get(this.$constants.API_DOMAIN + "auth/logout")
         .then(response => {
           sessionStorage.clear();
           this.$router.push("/login");
@@ -49,7 +49,7 @@ export default {
   },
   created() {
     this.$axios
-      .get("http://hotelink.test/api/auth/user")
+      .get(this.$constants.API_DOMAIN + "auth/user")
       .then(response => {
         sessionStorage.setItem("user", JSON.stringify(response.data));
       })
