@@ -7,7 +7,7 @@ Para poder ejecutar el entonrno necesitaremos:
 * Node >= 8 
 * NPM >= 5 
 
-Primero debemos instalar [Quasar CLI](https://quasar.dev/quasar-cli/installation) >= 1.
+Primero debemos instalar [Quasar CLI](https://quasar.dev/quasar-cli/installation) v1.
 ```
  npm install -g @quasar/cli
 ```
